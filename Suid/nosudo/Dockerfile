@@ -6,7 +6,8 @@ RUN groupadd -g 1010 test \
 
 COPY ./suid_scr.sh /
 
-RUN chmod a+x suid_scr.sh \
-    && chmod a+s suid_scr.sh
+RUN chgrp 1010 suid_scr.sh 
+RUN     chmod 4755 suid_scr.sh 
+#    && chmod u+s suid_scr.sh
 
 ENTRYPOINT ["/bin/bash"]
