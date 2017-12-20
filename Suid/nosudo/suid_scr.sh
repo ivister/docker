@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo `$EUID`
 cd /mounted/petr \
     && mkdir test && cd test \
-    && echo "Hello my friend from $1" >> hello_from_docker
+    && echo "Hello my friend from `whoami`" >> hello_from_docker
