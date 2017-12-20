@@ -12,7 +12,7 @@ RUN groupadd -g 1010 test \
     && useradd -d /home/ivan -c "User Ivan" -u 3333 -g 1010 ivan \
     && useradd -d /home/petr -c "User Petr" -u 4444 -g 1010 petr
 
-# Make Ivan administrator
+# Make Ivan as administrator
 RUN echo "ivan ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Copy suid script and "c-shell" for this script to root directory of container
