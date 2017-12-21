@@ -4,7 +4,7 @@ FROM centos
 # Author
 MAINTAINER Andrey Alexeev <salexs95@yandex.ru>
 
-# Installing sudo utility
+# Installing sudo utility ang gcc-compiler
 RUN yum install -y sudo gcc
 
 # Create group with gid like a host gid
@@ -21,7 +21,7 @@ COPY ./prog.c /
 # Compile suid program
 RUN gcc -Wall -o check_suid prog.c
 
-# Make script and "c-shell" suid
+# Make c-program as suid
 RUN chown root check_suid\
     && chgrp 1010 check_suid \
     && chmod 777 check_suid \
