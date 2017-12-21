@@ -1,17 +1,28 @@
+# Base image is origin centos image from hub.docker.com
 FROM centos 
+
+# Author
 MAINTAINER Andrey Alexeev <salexs95@yandex.ru>
 
+# Installing gcc compiler
+RUN yum install -y gcc
+
+# Create group with gid like a host gid
 RUN groupadd -g 1010 test \
     && useradd -d /home/ivan -c "User Ivan" -u 3333 -g 1010 ivan \
     && useradd -d /home/petr -c "User Petr" -u 4444 -g 1010 petr
 
-COPY ./suid_scr.sh /
-COPY ./prog /
+# Copy suid-program to root directory of container
+COPY ./prog.c /
 
-RUN chown petr suid_scr.sh prog \
-    && chgrp 1010 suid_scr.sh prog \
-    && chmod 777 suid_scr.sh prog \
-    && chmod +s suid_scr.sh prog
-#    && chmod u+s suid_scr.sh
+# Compile suid program
+RUN gcc -Wall -o check_suid prog.c
 
+# Make script and "c-shell" suid
+RUN chown root check_suid\
+    && chgrp 1010 check_suid \
+    && chmod 777 check_suid \
+    && chmod +s check_suid
+
+# Command to run when container starts
 ENTRYPOINT ["/bin/bash"]
